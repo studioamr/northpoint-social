@@ -95,7 +95,7 @@
     'loading official history from Hyperliquid…': 'cargando historial oficial de Hyperliquid…', 'no PnL history for this period': 'sin historial de PnL en este periodo',
     'on thrive': 'en thrive', 'its trade history is below.': 'su historial está abajo.', 'it has no recent trades.': 'no tiene operaciones recientes.',
     // ---------- pie ----------
-    'connected': 'conectado', 'reconnecting': 'reconectando', 'data: hyperliquid · geckoterminal': 'datos: hyperliquid · geckoterminal',
+    'connected': 'conectado', 'positions': 'posiciones', 'language': 'idioma', 'favorite': 'favorito', 'sign in to thrive': 'entra a thrive', 'reconnecting': 'reconectando', 'data: hyperliquid · geckoterminal': 'datos: hyperliquid · geckoterminal',
     // ---------- landing ----------
     'on every screen': 'en todas tus pantallas', 'the full terminal.': 'la terminal completa.', 'right in your pocket.': 'también en tu bolsillo.',
     'open a position on your phone and close it on your computer, all from one account.': 'abre una posición en tu teléfono y ciérrala en tu computadora, todo en una sola cuenta.',
@@ -142,7 +142,7 @@
     [/^up to (\S+)$/, 'hasta $1'], [/^(.+) · perpetual on Hyperliquid(.*)$/, '$1 · perpetuo en Hyperliquid$2'], [/^hyperliquid(.*) · 24\/7 perpetual$/, 'hyperliquid$1 · perpetuo 24/7'],
     [/^(.+) perpetual$/, '$1 perpetuo'], [/^updated (.+) ago$/, 'actualizado hace $1'], [/^sign in with (\S+)$/, 'entra con $1'],
     [/^this account is empty right now: no balance and no open positions on Hyperliquid\.(.*)$/, 'esta cuenta está vacía ahora: sin saldo ni posiciones abiertas en Hyperliquid.$1'],
-    [/^(\d+) theses$/, '$1 tesis'], [/^(.+) on X$/, '$1 en X']
+    [/^(\d+) theses$/, '$1 tesis'], [/^([\d:]+) local time$/, '$1 hora local'], [/^(.+) cash$/, '$1 efectivo'], [/^(.+) available$/, '$1 disponible'], [/^long (\S+) (\d+×)$/, 'long $1 $2'], [/^short (\S+) (\d+×)$/, 'short $1 $2'], [/^(.+) on X$/, '$1 en X']
   ];
   const SKIP = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'CODE', 'svg', 'SVG']);
   function tr(s) {
