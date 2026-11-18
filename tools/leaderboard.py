@@ -4,10 +4,16 @@ import json, urllib.request, time, os
 URL = "https://stats-data.hyperliquid.xyz/Mainnet/leaderboard"
 raw = json.load(urllib.request.urlopen(urllib.request.Request(URL, headers={"User-Agent": "northpoint-social"}), timeout=120))
 rows = raw["leaderboardRows"]
+# etiquetas públicas de Hypurrscan (exchanges, vaults, liquidador, equipos conocidos)
+try:
+    ALIAS = {k.lower(): v for k, v in json.load(urllib.request.urlopen(urllib.request.Request("https://api.hypurrscan.io/globalAliases", headers={"User-Agent": "northpoint-social"}), timeout=60)).items()}
+except Exception:
+    ALIAS = {}
 W = ["day", "week", "month", "allTime"]
 def pack(r):
     p = dict(r["windowPerformances"])
-    return {"a": r["ethAddress"], "n": r.get("displayName") or "", "v": round(float(r["accountValue"]), 2),
+    al = ALIAS.get(r["ethAddress"].lower(), "")
+    return {"a": r["ethAddress"], "n": r.get("displayName") or al or "", "x": 1 if (al and not r.get("displayName")) else 0, "v": round(float(r["accountValue"]), 2),
             **{w: [round(float(p[w]["pnl"]), 2), round(float(p[w]["roi"]), 5), round(float(p[w]["vlm"]), 0)] for w in W}}
 rows = [r for r in rows if float(r["accountValue"]) >= 25000]
 keep = {}
