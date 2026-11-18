@@ -297,9 +297,16 @@ const store={get(k,d){try{const v=localStorage.getItem('np.'+k);return v?JSON.pa
 // ---------- red ----------
 async function hl(body){const r=await fetch(HL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error('Hyperliquid respondió '+r.status);return r.json()}
 const gtCache=new Map();let gtChain=Promise.resolve(),gtLast=0;
+// GeckoTerminal permite ~30 consultas por minuto por IP; vamos a 1 cada 2.6 s y, si responde 429 (llega sin CORS), esperamos y reintentamos.
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function gt(path,ttl=30000){const c=gtCache.get(path);if(c&&Date.now()-c.t<ttl)return Promise.resolve(c.d);
- const p=gtChain.then(async()=>{const c2=gtCache.get(path);if(c2&&Date.now()-c2.t<ttl)return c2.d;const w=gtLast+2100-Date.now();if(w>0)await new Promise(r=>setTimeout(r,w));gtLast=Date.now();
-  const r=await fetch(GT+path,{headers:{Accept:'application/json'}});if(r.status===429){gtLast=Date.now()+8000;if(c2)return c2.d;throw new Error('GeckoTerminal pidió esperar un momento')}if(!r.ok){if(c2)return c2.d;throw new Error('GeckoTerminal respondió '+r.status)}const d=await r.json();gtCache.set(path,{t:Date.now(),d});return d});
+ const p=gtChain.then(async()=>{const c2=gtCache.get(path);if(c2&&Date.now()-c2.t<ttl)return c2.d;
+  for(let n=0;n<3;n++){const w=gtLast+2600-Date.now();if(w>0)await wait(w);gtLast=Date.now();let r;
+   try{r=await fetch(GT+path,{headers:{Accept:'application/json'}})}catch(e){r=null}
+   if(r&&r.ok){const d=await r.json();gtCache.set(path,{t:Date.now(),d});return d}
+   if(r&&r.status!==429){if(c2)return c2.d;throw new Error('GeckoTerminal respondió '+r.status)}
+   gtLast=Date.now()+(n+1)*9000}
+  if(c2)return c2.d;throw new Error('GeckoTerminal está saturado; reintentando en unos segundos')});
  gtChain=p.catch(()=>{});return p}
 
 // ---------- estado ----------
@@ -450,7 +457,7 @@ async function loadTokTrades(g,first){const m=S.cur;if(!m||m.kind!=='tok')return
   $('#lp').innerHTML=`<table><thead><tr><th>trader</th><th>compró</th><th>vendió</th><th>neto</th><th>PnL estimado</th><th>ops</th><th>última</th></tr></thead><tbody>${A.map(a=>{const net=a.buy-a.sell,pnl=a.sell-a.buy+Math.max(0,a.qb-a.qs)*m.px;
    return`<tr class="cl" data-w="${esc(a.u)}"><td><div class="who"><img class="av" src="${avOf(a.u)}" alt=""><span class="nm">${shortA(a.u)}</span></div></td><td class="m up">${sh(a.buy)}</td><td class="m dn">${sh(a.sell)}</td><td class="m ${net>=0?'up':'dn'}">${sh(net)}</td><td class="m ${pnl>=0?'up':'dn'}">${pnl>=0?'+':''}${sh(pnl)}</td><td class="m">${a.n}</td><td class="dim">${ago(a.last)}</td></tr>`}).join('')}</tbody></table><div class="dim sm" style="padding:8px 10px;white-space:normal">PnL estimado = ventas − compras + lo que aún conserva a precio actual, contando solo estas operaciones. Clic en una wallet para verla en Solscan.</div>`;
   draw();about();
- }catch(e){if(g===selGen)$('#rp').innerHTML=`<div class="err">${esc(e.message)}</div>`}}
+ }catch(e){if(g===selGen){$('#rp').innerHTML=`<div class="load">${esc(e.message)}</div>`;if(!S.trades.length)$('#lp').innerHTML=`<div class="load">${esc(e.message)}</div>`;setTimeout(()=>{if(g===selGen&&!S.trades.length)loadTokTrades(g,true)},12000)}}}
 async function loadTokInfo(m,g){if(!m.token)return;try{const d=await gt(`/networks/solana/tokens/${m.token}/info`,300000);if(g!==selGen)return;const a=d.data?.attributes||{};m.holders=a.holders?.count;m.desc=a.description;m.links={web:a.websites?.[0],x:a.twitter_handle,tg:a.telegram_handle};about()}catch(e){}}
 
 // ---------- perps: operaciones y posiciones de top traders ----------
