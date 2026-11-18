@@ -26,7 +26,7 @@
     'available': 'disponible', 'up': 'sube', 'down': 'baja', 'long': 'long', 'short': 'short', 'amount': 'monto', 'max': 'máx', 'payout multiplier': 'multiplicador de pago',
     'details': 'detalles', 'tap to trade!': '¡toca para operar!', 'cash out whenever you want!': '¡cash out cuando quieras!', 'cash out': 'cash out', 'cash out complete': 'cash out realizado',
     'duration': 'duración', 'keep trading': 'seguir operando', 'practice money, real prices': 'dinero de práctica, precios reales', 'real trade on Hyperliquid': 'trade real en Hyperliquid',
-    'replay the tutorial': 'repetir el tutorial', 'skip': 'saltar', 'next': 'siguiente',
+    'replay the tutorial': 'repetir el tutorial', 'open position': 'abrir posición', 'skip': 'saltar', 'next': 'siguiente',
     'pick a market': 'elige un mercado', 'crypto, memecoins, stocks like NVIDIA and Apple, gold and oil. every price is live.': 'cripto, memecoins, acciones como NVIDIA y Apple, oro y petróleo. todos los precios son en vivo.',
     'watch the chart': 'mira el gráfico', 'the bubbles are real traders buying and selling right now. tap one to see their profile.': 'las burbujas son traders reales comprando y vendiendo ahora mismo. toca una para ver su perfil.',
     'up or down?': '¿sube o baja?', 'choose which way you think the price goes next.': 'elige hacia dónde crees que va el precio.',
