@@ -26,7 +26,7 @@
     'available': 'disponible', 'up': 'sube', 'down': 'baja', 'long': 'long', 'short': 'short', 'amount': 'monto', 'max': 'máx', 'payout multiplier': 'multiplicador de pago',
     'details': 'detalles', 'tap to trade!': '¡toca para operar!', 'cash out whenever you want!': '¡cash out cuando quieras!', 'cash out': 'cash out', 'cash out complete': 'cash out realizado',
     'duration': 'duración', 'keep trading': 'seguir operando', 'practice money, real prices': 'dinero de práctica, precios reales', 'real trade on Hyperliquid': 'trade real en Hyperliquid',
-    'replay the tutorial': 'repetir el tutorial', 'open position': 'abrir posición', 'skip': 'saltar', 'next': 'siguiente',
+    'replay the tutorial': 'repetir el tutorial', 'sign in with your wallet to create or join a clan': 'entra con tu wallet para crear o unirte a un clan', 'open position': 'abrir posición', 'skip': 'saltar', 'next': 'siguiente',
     'pick a market': 'elige un mercado', 'crypto, memecoins, stocks like NVIDIA and Apple, gold and oil. every price is live.': 'cripto, memecoins, acciones como NVIDIA y Apple, oro y petróleo. todos los precios son en vivo.',
     'watch the chart': 'mira el gráfico', 'the bubbles are real traders buying and selling right now. tap one to see their profile.': 'las burbujas son traders reales comprando y vendiendo ahora mismo. toca una para ver su perfil.',
     'up or down?': '¿sube o baja?', 'choose which way you think the price goes next.': 'elige hacia dónde crees que va el precio.',
@@ -153,6 +153,8 @@
   };
   // frases con datos variables
   const RX = [
+    [/^(.+) · practice money, real prices$/, '$1 · dinero de práctica, precios reales'], [/^(.+) · real trade on Hyperliquid$/, '$1 · trade real en Hyperliquid'],
+    [/^(.+) · closed short · (.+)$/, '$1 · cerró short · $2'], [/^(.+) · closed long · (.+)$/, '$1 · cerró long · $2'], [/^(.+) · opened (long|short) · (.+)$/, '$1 · abrió $2 · $3'],
     [/^step (\d+) of (\d+)$/, 'paso $1 de $2'], [/^if (.+) moves 1% your way$/, 'si $1 se mueve 1% a tu favor'], [/^if (.+) rises 1%$/, 'si $1 sube 1%'],
     [/^(\d+) seconds$/, '$1 segundos'], [/^(\d+) minutes$/, '$1 minutos'], [/^([\d.]+) hours$/, '$1 horas'], [/^([\d.]+) days$/, '$1 días'], [/^avg hold (.+)$/, 'retención prom. $1'],
     [/^(.+) recent trades$/, '$1 trades recientes'], [/^active since (.+)$/, 'activo desde $1'], [/^(\d+) perps · (\d+) tokens · exposure (.+)$/, '$1 perps · $2 tokens · exposición $3'],
