@@ -524,8 +524,9 @@ function drawNow(){const K=viewSlice(),d=devicePixelRatio,W=cv.clientWidth,H=cv.
  rows.forEach(b=>{let i=Math.floor((b.t-t0)/step);if(i>=K.length&&b.t<last.t+step*2)i=K.length-1;if(i<0||i>=K.length)return;
   const gk=i+'|'+(b.b?'b':'s')+'|'+(b.me?'me':b.u);const g0=grp.get(gk);if(g0){g0.usd+=b.usd;g0.n++;if(b.t>g0.t){g0.t=b.t;g0.px=b.px}if(b.fol)g0.fol=1}else grp.set(gk,{...b,i,n:1})});
  const G=[...grp.values()].sort((a,b)=>(b.me?1e15:b.fol?1e14:b.usd)-(a.me?1e15:a.fol?1e14:a.usd));
- G.forEach(b=>{const i=b.i;
-  const k=K[i],cx=i*bw+bw/2,key=i+(b.b?'b':'s');occ[key]=(occ[key]||0)+1;if(occ[key]>3&&!b.me)return;
+ const cap=Math.max(24,Math.round(K.length*.55));let shown=0;
+ G.forEach(b=>{const i=b.i;if(!b.me&&!b.fol){if(shown>=cap)return}
+  const k=K[i],cx=i*bw+bw/2,key=i+(b.b?'b':'s');occ[key]=(occ[key]||0)+1;if(occ[key]>2&&!b.me)return;if(!b.me)shown++;
   const r=b.me?10:Math.max(7,Math.min(11,4+Math.log10(Math.max(b.usd,10))*1.4));let cy=b.b?Y(k.l)+r+5:Y(k.h)-r-5;cy+=(b.b?1:-1)*(occ[key]-1)*(r*2+2);
   x.beginPath();x.arc(cx,cy,r+2,0,7);x.fillStyle=b.b?'#22c55e':'#ef4444';x.fill();
   const im=img(b.me?'av/09.jpg':avOf(b.u));x.save();x.beginPath();x.arc(cx,cy,r,0,7);x.clip();if(im.complete&&im.naturalWidth)x.drawImage(im,cx-r,cy-r,r*2,r*2);else{x.fillStyle='#22212d';x.fill()}x.restore();
