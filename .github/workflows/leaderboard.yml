@@ -9,8 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 tools/leaderboard.py
+      - run: python3 tools/vaults.py
       - run: |
           git config user.name "northpoint-bot"
           git config user.email "actions@github.com"
-          git add data/leaderboard.json
+          git add data/leaderboard.json data/vaults.json
           git diff --cached --quiet || (git commit -m "clasificación: actualizar" && git push)
