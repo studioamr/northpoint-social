@@ -51,6 +51,9 @@ nav .wrap{display:flex;align-items:center;height:68px;gap:34px;max-width:1360px}
 .word{font-size:clamp(56px,8.6vw,124px);font-weight:600;letter-spacing:-.06em;line-height:.9;
   background:linear-gradient(180deg,#fff 20%,#c9cffc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:12px}
 .hero h1{font-size:clamp(26px,3.2vw,40px);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.hero h1 .url{color:#fff;border-bottom:1px solid rgba(201,207,252,.35);padding-bottom:2px;transition:.2s}
+.hero h1 .url span{color:#aab4ff}
+.hero h1 .url:hover{border-color:#aab4ff}
 .hero p{color:#b7b9c6;font-size:16px;margin:10px 0 22px}
 .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .orbit-x{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:min(560px,90vw);z-index:1;animation:float 7s ease-in-out infinite}
@@ -143,7 +146,7 @@ footer{padding:70px 0 40px;border-top:1px solid var(--line)}
     <div class="hero-in">
     <div class="kick">sigue la estrella del norte</div>
     <div class="word">northpoint</div>
-    <h1>en un mar de ruido, encuentra tu norte.</h1>
+    <h1><a class="url" href="https://northpointcapital.io/trading/">northpointcapital.io<span>/trading</span></a></h1>
     <p>ve en vivo quién lleva el rumbo correcto y síguelo en segundos.</p>
     <div class="cta"><a class="btn pri" href="app.html">empezar a operar</a><a class="btn dk" href="#">descargar app</a></div>
   </div>
@@ -191,7 +194,7 @@ footer{padding:70px 0 40px;border-top:1px solid var(--line)}
 
 <footer><div class="wrap">
   <div class="fgrid">
-    <div><div class="logo" style="margin-bottom:10px"><svg class="star" viewBox="0 0 24 24"><path d="M12 0l2.2 9.8L24 12l-9.8 2.2L12 24l-2.2-9.8L0 12l9.8-2.2z"/></svg>northpoint</div><p style="color:var(--mut);font-size:14px;max-width:220px">en un mar de ruido, encuentra tu norte.</p></div>
+    <div><div class="logo" style="margin-bottom:10px"><svg class="star" viewBox="0 0 24 24"><path d="M12 0l2.2 9.8L24 12l-9.8 2.2L12 24l-2.2-9.8L0 12l9.8-2.2z"/></svg>northpoint</div><p style="color:var(--mut);font-size:14px;max-width:220px"><a href="https://northpointcapital.io/trading/">northpointcapital.io/trading</a></p></div>
     <div><h4>producto</h4><a href="#">futuros</a><a href="#">trading social</a><a href="#">clasificación</a></div>
     <div><h4>mercados</h4><a href="#">micro nasdaq</a><a href="#">s&amp;p 500</a><a href="#">bitcoin</a><a href="#">solana</a></div>
     <div><h4>aprende</h4><a href="#">academia</a><a href="#">blog</a><a href="#">centro de ayuda</a></div>

@@ -42,7 +42,10 @@ svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 .it{display:flex;align-items:center;gap:9px;padding:8px 10px;cursor:pointer;border-left:2px solid transparent}
 .it:hover{background:rgba(203,208,235,.03)}
 .it.on{background:var(--card);border-left-color:var(--acc)}
-.ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:600;font-size:10px;color:#0a0a12;flex:none}
+.ico{position:relative;flex:none;display:block;border-radius:50%}
+.ico svg{display:block;width:100%;height:100%;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.ico .mi{position:absolute;right:-3px;top:-3px;width:14px;height:14px;border-radius:50%;background:#516af6;color:#fff;font-size:9px;display:grid;place-items:center;box-shadow:0 0 0 2px var(--bg)}
+.ico .tag{position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);font:600 7px/1 'Geist Mono',monospace;background:#0b1530;color:#cfd8ff;padding:2px 3px;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.15)}
 .it .g{flex:1;min-width:0}
 .it .r{text-align:right}
 .it .n{font-weight:500}
@@ -50,7 +53,7 @@ svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 
 .center{display:grid;grid-template-rows:auto 1fr 300px;min-width:0;min-height:0}
 .ihead{display:flex;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid var(--line)}
-.ihead .big{width:38px;height:38px;border-radius:11px;font-size:12px}
+
 .ihead h1{font-size:15px;font-weight:600}
 .stats{margin-left:auto;display:flex;gap:22px;text-align:center}
 .stats .k{color:var(--mut);font-size:10.5px}
@@ -226,13 +229,27 @@ function state(ins){
 }
 const pnl=(h,ins)=>(ins.p-h.e)*h.q*ins.mult;
 
+
+// ---------- íconos de mercados ----------
+const FLAG=id=>`<defs><clipPath id="c${id}"><circle cx="16" cy="16" r="16"/></clipPath></defs><g clip-path="url(#c${id})"><rect width="32" height="32" fill="#fff"/>${[0,2,4,6,8,10,12].map(k=>`<rect y="${k*2.47}" width="32" height="2.47" fill="#c8102e"/>`).join('')}<rect width="15" height="17.3" fill="#0a3161"/>${[[3,3],[7,3],[11,3],[5,6.5],[9,6.5],[3,10],[7,10],[11,10],[5,13.5],[9,13.5]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r=".9" fill="#fff"/>`).join('')}</g>`;
+const ICONS={
+ BTC:()=>`<circle cx="16" cy="16" r="16" fill="#f7931a"/><path fill="#fff" d="M22.6 14.1c.3-2.1-1.3-3.2-3.4-3.9l.7-2.8-1.7-.4-.7 2.7-1.4-.3.7-2.7-1.7-.4-.7 2.8-1.1-.3-2.4-.6-.4 1.8s1.3.3 1.2.3c.7.2.8.6.8 1l-.8 3.2.2.1-.2-.1-1.1 4.5c-.1.2-.3.6-.8.4 0 0-1.2-.3-1.2-.3l-.8 1.9 2.2.6 1.2.3-.7 2.8 1.7.4.7-2.8 1.4.4-.7 2.8 1.7.4.7-2.8c2.9.6 5.1.3 6-2.3.7-2.1 0-3.3-1.5-4.1 1.1-.3 2-1 2.2-2.6zm-3.9 5.4c-.5 2.1-4 1-5.2.7l.9-3.7c1.2.3 4.8.9 4.3 3zm.5-5.5c-.5 1.9-3.4.9-4.3.7l.8-3.3c1 .2 4 .7 3.5 2.6z"/>`,
+ ETH:()=>`<circle cx="16" cy="16" r="16" fill="#627eea"/><g fill="#fff"><path fill-opacity=".6" d="M16.5 4v8.9l7.5 3.3z"/><path d="M16.5 4L9 16.2l7.5-3.3z"/><path fill-opacity=".6" d="M16.5 22v6l7.5-10.4z"/><path d="M16.5 28v-6L9 17.6z"/><path fill-opacity=".2" d="M16.5 20.6l7.5-4.4-7.5-3.3z"/><path fill-opacity=".6" d="M9 16.2l7.5 4.4v-7.7z"/></g>`,
+ SOL:()=>`<defs><linearGradient id="gs" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#9945ff"/><stop offset="1" stop-color="#14f195"/></linearGradient></defs><circle cx="16" cy="16" r="16" fill="#000"/><g fill="url(#gs)"><path d="M10.5 20.2h12.3l-2.3 2.4H8.2z"/><path d="M10.5 9.4h12.3l-2.3 2.4H8.2z" transform="translate(0 0)"/><path d="M8.2 14.8h12.3l2.3 2.4H10.5z"/></g>`,
+ HYPE:()=>`<circle cx="16" cy="16" r="16" fill="#072723"/><path fill="#97fce4" d="M25 15.9c0 4.2-2.4 6.6-4.9 5.4-2-1-2.4-3.9-4.1-4-1.7-.1-2.2 3.4-4.4 4.1C9.3 22.1 7 19.5 7 15.9s2.3-6.2 4.6-5.5c2.2.7 2.7 4.2 4.4 4.1 1.7-.1 2.1-3 4.1-4 2.5-1.2 4.9 1.2 4.9 5.4z"/>`,
+ GC:()=>`<defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#c8901c"/></linearGradient></defs><circle cx="16" cy="16" r="16" fill="#2b2210"/><path fill="url(#gg)" d="M8 21l2.6-8h10.8L24 21z"/><path fill="#fff3c4" fill-opacity=".55" d="M11.3 14h9.4l.5 1.4h-10.4z"/>`,
+ CL:()=>`<circle cx="16" cy="16" r="16" fill="#241a10"/><path fill="#111" stroke="#f59e0b" stroke-width="1.4" d="M16 7.5c3 4.2 6 7.5 6 11a6 6 0 01-12 0c0-3.5 3-6.8 6-11z"/><path fill="#f59e0b" fill-opacity=".8" d="M13.4 19.2a2.6 2.6 0 002.6 2.6v-1.3a1.3 1.3 0 01-1.3-1.3z"/>`,
+};
+let _icoN=0;
+function icon(ins,px){const id=++_icoN,s=ins.s,body=ICONS[s]?ICONS[s]():FLAG(id),micro=/^M(NQ|ES)$/.test(s);
+ return `<span class="ico" style="width:${px}px;height:${px}px"><svg viewBox="0 0 32 32" width="${px}" height="${px}">${body}</svg>${micro?'<b class="mi">µ</b>':''}${!ICONS[s]?`<b class="tag">${{NQ:'NDX',MNQ:'NDX',ES:'SPX',MES:'SPX',YM:'DJI',RTY:'RUT'}[s]||''}</b>`:''}</span>`}
 // ---------- lista ----------
-function list(){$('#list').innerHTML=INS.map(i=>{const ch=(i.p/i.o-1)*100;return`<div class="it ${i===cur?'on':''}" data-s="${i.s}"><div class="ico" style="background:${i.c}">${i.s.slice(0,3)}</div><div class="g"><div class="n">${i.s}</div><div class="sm m mut">${i.p<100?i.p.toFixed(2):f2(i.p)}</div></div><div class="r"><div class="sm m">${sh(i.vol)} vol</div><div class="sm m ${ch>=0?'up':'dn'}">${pc(ch)}</div></div></div>`}).join('')}
+function list(){$('#list').innerHTML=INS.map(i=>{const ch=(i.p/i.o-1)*100;return`<div class="it ${i===cur?'on':''}" data-s="${i.s}">${icon(i,30)}<div class="g"><div class="n">${i.s}</div><div class="sm m mut">${i.p<100?i.p.toFixed(2):f2(i.p)}</div></div><div class="r"><div class="sm m">${sh(i.vol)} vol</div><div class="sm m ${ch>=0?'up':'dn'}">${pc(ch)}</div></div></div>`}).join('')}
 
 // ---------- encabezado ----------
 function head(){const i=cur,st=state(i),ch=(i.p/i.o-1)*100;
  const top10=st.hold.slice(0,10).reduce((a,h)=>a+h.q,0);
- $('#ihead').innerHTML=`<div class="ico big" style="background:${i.c}">${i.s.slice(0,3)}</div><div><h1>${i.s} <span class="mut" style="font-weight:400;font-size:12px">${i.n}</span></h1><div class="mut sm">${i.ex} · multiplicador ${i.mult}× · demo</div></div>
+ $('#ihead').innerHTML=`${icon(i,38)}<div><h1>${i.s} <span class="mut" style="font-weight:400;font-size:12px">${i.n}</span></h1><div class="mut sm">${i.ex} · multiplicador ${i.mult}× · demo</div></div>
  <div class="stats"><div><div class="k">precio</div><div class="v m">${i.p<100?i.p.toFixed(2):f2(i.p)}</div></div><div><div class="k">cambio 24 h</div><div class="v m ${ch>=0?'up':'dn'}">${pc(ch)}</div></div><div><div class="k">vol 24 h</div><div class="v m">${sh(i.vol)}</div></div><div><div class="k">interés abierto</div><div class="v m">${(i.oi/1e3).toFixed(1)}K</div></div><div><div class="k">traders</div><div class="v m">${(i.traders/1e3).toFixed(1)}K</div></div><div><div class="k">contratos top 10</div><div class="v m">${top10}</div></div></div>`;
 }
 
