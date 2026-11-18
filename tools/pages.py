@@ -60,9 +60,12 @@ footer{{border-top:1px solid var(--line);padding:26px 24px;color:var(--mut);font
     open(fname, 'w').write(html)
 
 page('help.html', 'help center', 'how thrive works, how to trade for real, fees and safety.', '''
-<div class="toc"><a href="#what">what is thrive</a><a href="#practice">practice mode</a><a href="#real">trading for real</a><a href="#markets">markets</a><a href="#fees">fees</a><a href="#safety">safety</a><a href="#install">install the app</a><a href="#shortcuts">shortcuts</a><a href="#about">about</a><a href="#contact">contact</a></div>
+<div class="toc"><a href="#what">what is thrive</a><a href="#account">account</a><a href="#practice">practice mode</a><a href="#real">trading for real</a><a href="#markets">markets</a><a href="#fees">fees</a><a href="#safety">safety</a><a href="#install">install the app</a><a href="#shortcuts">shortcuts</a><a href="#about">about</a><a href="#contact">contact</a></div>
 <h2 id="what">what is thrive</h2>
 <p>thrive is a social trading terminal. you see every trade from real traders on the chart, follow the ones who win, get alerts when they trade and copy a move in one tap. market data is live from Hyperliquid and Solana.</p>
+<h2 id="account">your account</h2>
+<p>you don't need an account to use thrive. tap your avatar → <b>sign in</b> with an Ethereum wallet (MetaMask, Rabby…) or a Solana wallet (Phantom…). signing a message is free and never moves funds.</p>
+<p>with an account you can pick a username, post <b>theses</b> on any market (long, short or neutral, up to 500 characters), like other traders' theses, appear on the <b>thrive traders</b> leaderboard, and sync your follows, favorites, practice account and layout across devices.</p>
 <h2 id="practice">practice mode</h2>
 <p>every new visitor starts in <b>practice mode</b> with $10,000 of simulated money. prices are real; the money is not. your practice positions and history are saved only in your browser. you can add practice funds or reset the account at any time from <b>deposit more</b>.</p>
 <h2 id="real">trading for real</h2>
@@ -124,9 +127,13 @@ page('terms.html', 'terms of service', 'the rules for using thrive.', '''
 
 page('privacy.html', 'privacy policy', 'what thrive stores, what it shares and why.', '''
 <h2>the short version</h2>
-<div class="card"><p style="margin:0">thrive has <b>no user accounts and no database of users</b>. what you do in the app (practice balance, positions, follows, favorites, layout and your trading key) is stored <b>only in your browser</b>. we don't sell data.</p></div>
+<div class="card"><p style="margin:0">you can use thrive <b>without an account</b>. if you choose to sign in, you do it with your <b>wallet</b> (no email, no password) and we store only what's needed for the social features. your <b>trading key never leaves your browser</b>. we don't sell data.</p></div>
+<h2>if you sign in (optional)</h2>
+<p>signing in uses a wallet signature (Sign-In with Ethereum / Sign-In with Solana). our database provider, <b>Supabase</b>, stores:</p>
+<ul><li>your <b>wallet address</b> and chain, and the <b>username</b> you choose</li><li>the <b>theses</b> you post and the <b>likes</b> you give — these are public</li><li>your synced settings: follows, favorites, practice account and layout — these are private to you</li></ul>
+<p>you can delete a thesis at any time. to delete your account and all its data, contact us (see below).</p>
 <h2>what stays in your browser</h2>
-<ul><li>practice mode balance, positions and history</li><li>traders you follow, favorites, alerts and layout preferences</li><li>your connected wallet addresses and, if you enable real trading, your trading key</li></ul>
+<ul><li>practice mode balance, positions and history</li><li>traders you follow, favorites, alerts and layout preferences</li><li>your connected wallet addresses and, if you enable real trading, your trading key (never sent to our database)</li></ul>
 <p>you can delete all of it by clearing this site's data in your browser.</p>
 <h2>what third parties receive</h2>
 <p>to show live data and execute trades, your browser talks directly to:</p>
@@ -134,6 +141,7 @@ page('privacy.html', 'privacy policy', 'what thrive stores, what it shares and w
 <li><b>Jupiter</b> and the <b>Solana network</b> (quotes, swaps, balances) — receive your Solana address and transactions.</li>
 <li><b>GeckoTerminal</b> (token data) — receives standard request data such as your IP address.</li>
 <li><b>your wallet provider</b> (MetaMask, Rabby, Phantom…) — under its own privacy policy.</li>
+<li><b>Supabase</b> (only if you sign in) — your wallet address, username, theses, likes and synced settings.</li>
 <li><b>Google Fonts</b> and public code CDNs — standard request data.</li></ul>
 <p>blockchain transactions are public by nature and can be linked to your wallet address by anyone.</p>
 <h2>hosting</h2>
