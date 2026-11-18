@@ -826,18 +826,19 @@ function confetti(){const c=document.createElement('canvas');c.className='confet
  (function f(){x.clearRect(0,0,innerWidth,innerHeight);P.forEach(p=>{p.vy+=.32;p.x+=p.vx;p.y+=p.vy;p.a+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);x.restore()});if(++n<110)requestAnimationFrame(f);else c.remove()})()}
 // ---------- tutorial guiado ----------
 const TOUR=[
- {sel:'#list',t:'pick a market',d:'crypto, memecoins, stocks like NVIDIA and Apple, gold and oil. every price is live.'},
- {sel:'.cvw',t:'watch the chart',d:'the bubbles are real traders buying and selling right now. tap one to see their profile.'},
- {sel:'#bs',t:'up or down?',d:'choose which way you think the price goes next.'},
- {sel:'#tcard .tsec',t:'choose an amount',d:'slide or type how much to put in. you start with $10,000 of practice money.'},
- {sel:'#levw',t:'payout multiplier',d:'multiplies your gains, and your losses too. higher means riskier.'},
- {sel:'.gow',t:'tap to trade',d:'one tap opens the position at the live price.'},
- {sel:'#mypos',t:'cash out whenever you want',d:'your position shows here. tap the green button to take your profit.'},
- {sel:'[data-t="rank"]',t:'follow the best',d:'see who is winning on Hyperliquid, join a clan and follow traders.'}];
-function tour(i=0){const vis=TOUR.map(x=>$(x.sel)).map(e=>e&&e.offsetParent!==null&&e.getBoundingClientRect().width>0);const L=TOUR.filter((x,k)=>vis[k]);if(!L.length)return;
+ {v:'list',sel:'#list',t:'pick a market',d:'crypto, memecoins, stocks like NVIDIA and Apple, gold and oil. every price is live.'},
+ {v:'chart',sel:'.cvw',t:'watch the chart',d:'the bubbles are real traders buying and selling right now. tap one to see their profile.'},
+ {v:'trade',sel:'#bs',t:'up or down?',d:'choose which way you think the price goes next.'},
+ {v:'trade',sel:'#tcard .tsec',t:'choose an amount',d:'slide or type how much to put in. you start with $10,000 of practice money.'},
+ {v:'trade',sel:'#levw',t:'payout multiplier',d:'multiplies your gains, and your losses too. higher means riskier.'},
+ {v:'trade',sel:'.gow',t:'tap to trade',d:'one tap opens the position at the live price.'},
+ {v:'trade',sel:'#mypos',t:'cash out whenever you want',d:'your position shows here. tap the green button to take your profit.'},
+ {v:'list',sel:'[data-t="rank"]',t:'follow the best',d:'see who is winning on Hyperliquid, join a clan and follow traders.'}];
+const MOB=()=>innerWidth<=820;
+function tour(i=0){const L=MOB()?TOUR:TOUR.filter(x=>{const e=$(x.sel);return e&&e.offsetParent!==null&&e.getBoundingClientRect().width>0});if(!L.length)return;
  let el=$('#tour');if(!el){el=document.createElement('div');el.id='tour';el.className='tour';el.innerHTML='<div class="hole"></div><div class="bub"></div>';document.body.appendChild(el)}
- const end=()=>{el.remove();store.set('tour',1)};if(i>=L.length)return end();
- const st=L[i],t=$(st.sel);t.scrollIntoView({block:'nearest'});const r=t.getBoundingClientRect(),pad=6,h=el.querySelector('.hole'),b=el.querySelector('.bub');
+ const end=()=>{el.remove();store.set('tour',1);if(MOB())setMobile('trade')};if(i>=L.length)return end();
+ const st=L[i];if(MOB()&&st.v)setMobile(st.v);const t=$(st.sel);if(!t||!t.getBoundingClientRect().width){return tour(i+1)}t.scrollIntoView({block:'nearest'});const r=t.getBoundingClientRect(),pad=6,h=el.querySelector('.hole'),b=el.querySelector('.bub');
  const top=Math.max(8,r.top-pad),hh=Math.min(innerHeight-16,r.height+pad*2);Object.assign(h.style,{left:(r.left-pad)+'px',top:top+'px',width:(r.width+pad*2)+'px',height:hh+'px'});
  b.innerHTML=`<div class="st">step ${i+1} of ${L.length}</div><h4>${st.t}</h4><p>${st.d}</p><div class="ft"><span class="dots">${L.map((x,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</span><span><button class="sk" data-tsk>skip</button><button class="nx" data-tnx>${i===L.length-1?'start trading':'next'}</button></span></div>`;
  const bw=Math.min(300,innerWidth*.86),bh=b.offsetHeight||150;let bx=r.right+14,by=r.top;
